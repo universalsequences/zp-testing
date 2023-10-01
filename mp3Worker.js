@@ -85,7 +85,8 @@ const decodeMP3 = async (mp3Data, isNFT) => {
     let sampleRate;
     decoder.seek(0);
     let counter=0;
-    let estimate = (mp3Data.length * 3) / 44100;
+    console.log('mp3 data lenght=', mp3Data.length);
+    let estimate = (mp3Data.length * 14) / 44100;
     console.log('estimate minutes=', estimate);
     const results = decoder.decode(Math.min(60*5.5, estimate));
     const merged = new Uint16Array(results.pcm.length);
