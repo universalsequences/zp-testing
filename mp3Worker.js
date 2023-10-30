@@ -6,7 +6,6 @@ class Decoder {
     constructor(wasm, data) {
         this.wasm = wasm;
         this.wasm.decoder_init();
-        console.log("INITIALIZING ");
         // Set `data` in Wasm memory.
         this.wasm.decoder_set_mp3_data_size(data.byteLength);
         const mp3DataInWasm = new Uint8Array(this.wasm.memory.buffer, this.wasm.decoder_mp3_data_offset(), this.wasm.decoder_mp3_data_size());
@@ -85,12 +84,9 @@ const decodeMP3 = async (mp3Data, isNFT) => {
     let sampleRate;
     decoder.seek(0);
     let counter=0;
-    console.log('mp3 data lenght=', mp3Data.length);
     let estimate = (mp3Data.length * 14) / 44100;
-    console.log('estimate minutes=', estimate);
     const results = decoder.decode(Math.min(60*5.5, estimate));
     const merged = new Uint16Array(results.pcm.length);
-    console.log('results.length = %s merged.length=%s', results.pcm.length, merged.length);
     sampleRate = results.samplingRate;
     merged.set(results.pcm, position);
     position+=results.pcm.length;
